@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trading Calculator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h2 class="mb-4">Trading Calculator</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-primary float-end">Calculate</button>
+            </form>
+
+                
+        </div>
+
+        <div class="col-md-6">
+            <h2>Results</h2>
+            {% if result %}
+                <div class="card ">
+                    <div class="card-header">Target Price</div>
+                    <div class="card-body">
+                        <p><strong>Calculated Target Stock Price:</strong> ₹{{ result.target_stock_price|floatformat:2 }}</p>
+                        <p class="alert alert-info mt-1">{{ result.message }}</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">Premium Details</div>
+                    <div class="card-body">
+                        <p><strong>Stop Loss Premium:</strong> ₹{{ result.stop_loss_premium|floatformat:2 }}</p>
+                        <p><strong>Target Premium:</strong> ₹{{ result.target_premium|floatformat:2 }}</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">Risk & Reward</div>
+                    <div class="card-body">
+                        <p><strong>Risk (₹):</strong> ₹{{ result.risk|floatformat:2 }}</p>
+                        <p><strong>Reward (₹):</strong> ₹{{ result.reward|floatformat:2 }}</p>
+                        <p><strong>Expected Return (%):</strong> {{ result.expected_return|floatformat:2 }}%</p>
+                    </div>
+                </div>
+                
+            {% endif %}         
+        </div>
+    </div>
+
+</div>
+
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script></body>
+</html>

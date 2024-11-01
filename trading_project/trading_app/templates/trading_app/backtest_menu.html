@@ -1,0 +1,25 @@
+<!-- trading_app/templates/trading_app/results.html -->
+{% extends 'trading_app/base.html' %}
+
+{% block content %}
+<div class="jumbotron">
+    <h1>Run Backtest</h1>
+    <form action="{% url 'run_backtest' %}" method="get">
+        <label for="ticker">Ticker Symbol:</label>
+        <input type="text" id="ticker" name="ticker" value="AAPL" required><br><br>
+        <label for="start_date">Start Date:</label>
+        <input type="date" id="start_date" name="start_date" value="2021-01-01" required><br><br>
+        <label for="end_date">End Date:</label>
+        <input type="date" id="end_date" name="end_date" value="2023-12-31" required><br><br>
+        <input type="submit" value="Run Backtest">
+    </form>
+</div>
+<div class="jumbotron">
+    <h1>risk management calculations for option trading</h1>
+    <a href="{% url 'calculator' %}" class="btn btn-primary">calculator</a>
+</div>
+
+
+
+
+{% endblock %}

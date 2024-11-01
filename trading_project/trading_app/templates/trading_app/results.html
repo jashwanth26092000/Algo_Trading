@@ -1,0 +1,57 @@
+<!-- trading_app/templates/trading_app/results.html -->
+{% extends 'trading_app/base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Backtest Results for {{ ticker }}</h2>
+    <div>
+        <a class="btn btn-primary" href="{% url 'trades_list' %}">Show Trade's</a>
+    </div>
+    <div id="backtest-chart"></div>
+</div>
+
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script>
+    var data = {
+        x: {{ plotly_data.dates|safe }},
+        open: {{ plotly_data.open|safe }},
+        high: {{ plotly_data.high|safe }},
+        low: {{ plotly_data.low|safe }},
+        close: {{ plotly_data.close|safe }},
+        type: 'candlestick',
+        xaxis: 'x',
+        yaxis: 'y'
+    };
+
+    var trades = {{ plotly_data.trades|safe }};
+    var annotations = [];
+
+    for (var i = 0; i < trades.length; i++) {
+        if (trades[i] !== '') {
+            annotations.push({
+                x: data.x[i],
+                y: data.close[i],
+                xref: 'x',
+                yref: 'y',
+                text: trades[i],
+                showarrow: true,
+                arrowhead: 2,
+                ax: 0,
+                ay: -40
+            });
+        }
+    }
+
+    var layout = {
+        title: 'Candlestick chart with trades',
+        xaxis: {
+            rangeslider: {
+                visible: false
+            }
+        },
+        annotations: annotations
+    };
+
+    Plotly.newPlot('backtest-chart', [data], layout);
+</script>
+{% endblock %}
